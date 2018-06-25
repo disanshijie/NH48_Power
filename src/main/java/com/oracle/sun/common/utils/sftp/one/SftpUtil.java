@@ -249,6 +249,7 @@ public class SftpUtil {
          }else if(srcFile.isDirectory()){
              File[] files = srcFile.listFiles();
              for (File file2 : files) {
+            	 //System.out.println("循环上传"+file2.getAbsolutePath());
                  if(file2.isDirectory()){
                      directory =directory+"/"+file2.getName();
                  }

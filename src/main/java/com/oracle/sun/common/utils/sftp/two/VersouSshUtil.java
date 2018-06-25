@@ -73,10 +73,10 @@ public class VersouSshUtil {
         InputStream in = channelExec.getInputStream();  
         BufferedReader reader = new BufferedReader(new InputStreamReader(in, Charset.forName(charset)));  
         String buf = null;  
-        while ((buf = reader.readLine()) != null)  
-        {  
-            System.out.println(buf);  
+        while ((buf = reader.readLine()) != null){  
+            System.out.println(buf);
         }  
+        System.out.println("----------------end--------------------");
         reader.close();
         channelExec.disconnect();  
     }  

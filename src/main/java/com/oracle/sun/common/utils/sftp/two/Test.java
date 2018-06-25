@@ -17,7 +17,7 @@ public class Test {
 	 * @注
 	 */
 	private static void test1() throws Exception {
-		VersouSshUtil ve=new VersouSshUtil();
+		VersouSshUtil ve=new VersouSshUtil("", 22, "", "");
 		String patterns="git";
 		String cmd = "ls -ltr /usr/soft/git-2.16.0/|grep "+patterns+"|tail -1|awk {'print $NF'}\n";
 		//执行的命令，这里为查找目录下最近更新的文件名带有patterns的文件
@@ -30,7 +30,7 @@ public class Test {
 	 * @注
 	 */
 	private static void test2() throws Exception {
-		VersouSshUtil ve=new VersouSshUtil();
+		VersouSshUtil ve=new VersouSshUtil("", 22, "", "");
 		String patterns="git";
 		String cmd = "ls -ltr /usr/soft/git-2.16.0/|grep "+patterns+"|tail -1|awk {'print $NF'}\n";
 		//执行的命令，这里为查找目录下最近更新的文件名带有patterns的文件

@@ -12,7 +12,7 @@ public class StartUpFile {
 	public static void main(String[] args) {
 		//getPath();
 		
-		FileUps.startUp();
+		FileUps.startUp(1);
 	}
 	
 	public static void start() {
