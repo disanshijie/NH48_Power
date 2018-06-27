@@ -33,10 +33,7 @@ public class FileUps {
 				
 			}
 			
-			//lineStr.size()
-			int max=lineStr.size();
-			max=(max>10)?10:max;
-			for (int i = 0; i < max; i++) {
+			for (int i = 0; i < lineStr.size(); i++) {
 				String temp=lineStr.get(i);
 				if(plan==1) {
 					new Thread(new UpDownFile(temp,i)).start();
@@ -93,7 +90,7 @@ public class FileUps {
 				SftpUtil.exit(sftp);
 			} catch (Exception e) {
 				logger.error("格式错误"+e);
-				//System.exit(0);
+				System.exit(0);
 			}
 	}
 	

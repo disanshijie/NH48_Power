@@ -62,7 +62,7 @@ public class VersouSshUtil {
      * @throws Exception
      * @注
      */
-    public void runCmd(String cmd, String charset) throws Exception {
+    public void runCmd(String cmd, String charset,HandelConsole handel) throws Exception {
     	ChannelExec channelExec; //可以作为参数传入
     	
         channelExec = (ChannelExec)session.openChannel("exec");
@@ -71,12 +71,9 @@ public class VersouSshUtil {
         channelExec.setErrStream(System.err);  
         channelExec.connect();
         InputStream in = channelExec.getInputStream();  
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in, Charset.forName(charset)));  
-        String buf = null;  
-        while ((buf = reader.readLine()) != null){  
-            System.out.println(buf);
-        }  
-        System.out.println("----------------end--------------------");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in, Charset.forName(charset))); 
+        //回掉函数
+        handel.exec(reader);
         reader.close();
         channelExec.disconnect();  
     }  

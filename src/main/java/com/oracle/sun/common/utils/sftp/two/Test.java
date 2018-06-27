@@ -21,7 +21,7 @@ public class Test {
 		String patterns="git";
 		String cmd = "ls -ltr /usr/soft/git-2.16.0/|grep "+patterns+"|tail -1|awk {'print $NF'}\n";
 		//执行的命令，这里为查找目录下最近更新的文件名带有patterns的文件
-		ve.runCmd(cmd, "utf-8");
+		ve.runCmd(cmd, "utf-8", null);
 	}
 	/**
 	 * @Description getLatestFileName测试 
