@@ -1,4 +1,4 @@
-package com.oracle.sun.core;
+package com.oracle.sun.core.shell;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,37 +9,19 @@ import com.jcraft.jsch.ChannelSftp;
 import com.oracle.sun.common.constant.UserDefined;
 import com.oracle.sun.common.utils.sftp.two.HandelConsole;
 import com.oracle.sun.common.utils.sftp.two.VersouSshUtil;
-import com.oracle.sun.common.utils.sftp.two.impl.HandelConsoleImp;
+import com.oracle.sun.core.ThreadFactory.ExecSell;
+import com.oracle.sun.core.ThreadFactory.SellOperate;
 
-public class ExecSell implements Runnable{
-
-	protected static Logger logger = Logger.getLogger(UpDownFile.class);
-	public String line;
-	public int sort;
+public class Pick {
+	protected static Logger logger = Logger.getLogger(Pick.class);
 	
-	public ExecSell(String line,int sort) {
-		this.line=line;
-		this.sort=sort;
+	public static void start(String temp,int i) {
+		new Thread(new ExecSell(temp,i,new SellOperate() {
+			@Override
+			public void exec(String ip,String name,String passwd) {
+				runCmd( ip, name, passwd);
+			}})).start();
 	}
-	
-	public void run() {
-		String IP="";
-		String USERNAME="";
-		String PASSWD="";
-		if(line!=null && line.length()>1) {
-			String[] arr=line.split("\t");
-			IP=arr[0];
-			USERNAME=arr[1];
-			PASSWD=arr[2];
-			logger.info(IP+"#"+USERNAME+"#"+PASSWD+"#");
-			//上传
-			uploadFile(IP,USERNAME,PASSWD);
-		}else {
-			logger.error("第"+sort+"行数据不合法");
-			System.out.println("第"+sort+"行数据不合法");
-		}
-	}
-	
 	/**
      * OK
      * @Description
@@ -47,7 +29,7 @@ public class ExecSell implements Runnable{
      * @throws Exception
      * @注	
      */
-    public static void uploadFile(String ip,String name,String passwd){
+    public static void runCmd(String ip,String name,String passwd){
     	 ChannelSftp sftp;
 		try {
 			VersouSshUtil ve=new VersouSshUtil(ip, 22, name, passwd);
@@ -85,5 +67,4 @@ public class ExecSell implements Runnable{
 		}
        
     }
-
 }

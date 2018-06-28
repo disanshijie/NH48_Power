@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -45,7 +46,7 @@ public class FileUtil {
      * @throws IOException
      * @注
      */
-     protected static void copyFileByStreams(File srcFile, File newFile) throws IOException {
+    public static void copyFileByStreams(File srcFile, File newFile) throws IOException {
  		InputStream input = null;    
  	    OutputStream output = null;  
  	    try {
@@ -77,7 +78,7 @@ public class FileUtil {
  	* @param dest	目标路径，必须是文件夹；如果source是文件则自动创建此文件
  	* @throws IOException
  	 */
-     protected static void copyFolder(File sourceFile, File dest) throws IOException{
+     public static void copyFolder(File sourceFile, File dest) throws IOException{
  		File destFile=new File(dest,sourceFile.getName());
  		
  		if(sourceFile.isFile()) {
@@ -102,7 +103,7 @@ public class FileUtil {
  	* @throws IOException
  	* @注	如果source是文件，dest必须要是文件
  	 */
- 	protected static void copyFiles(File sourceFile, File destFile) throws IOException{
+     public static void copyFiles(File sourceFile, File destFile) throws IOException{
  		if(sourceFile.isFile()) {
  			destFile.createNewFile();
  			copyFileByStreams(sourceFile,destFile);
@@ -110,11 +111,10 @@ public class FileUtil {
  			destFile.mkdir();
  			File[] fileArray = sourceFile.listFiles();
  			for (File file2 : fileArray) {
- 				copyFiles(file2,new File(destFile+file2.getName()));
+ 				copyFiles(file2,new File(destFile,file2.getName()));
  			}
  		}
  	}
- 	
  	
  	public static String downloadNet(String src){
  		String str="";
@@ -133,5 +133,52 @@ public class FileUtil {
         }
         return str;
     }
- 	
+ 	//==========================================
+ 	/**
+     * 将字符串写入到文件中
+     */
+    public final static boolean write(File file, String str) {
+        try (
+                RandomAccessFile randomFile = new RandomAccessFile(file, "rw")
+        ) {
+            randomFile.writeBytes(str);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 将字符串以追加的方式写入到文件中
+     */
+    public final static boolean writeAppend(File file, String str) {
+        try (
+                RandomAccessFile randomFile = new RandomAccessFile(file, "rw")
+        ) {
+            long fileLength = randomFile.length();
+            randomFile.seek(fileLength);
+            randomFile.writeBytes(str);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 将字符串以制定的编码写入到文件中
+     */
+    public final static boolean write(File file, String str, String encoding) {
+        try (
+                RandomAccessFile randomFile = new RandomAccessFile(file, "rw")
+        ) {
+            randomFile.write(str.getBytes(encoding));
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }	
+ 			
 }
